@@ -25,7 +25,7 @@ public abstract class DomainEntityBase
     // Constructors
     protected DomainEntityBase(IDateTimeProvider dateTimeProvider)
     {
-        SetDateTimeProvider<DomainEntityBase>(dateTimeProvider);
+        DateTimeProvider = dateTimeProvider;
         AuditableInfo = new AuditableInfoValueObject();
     }
 
@@ -205,7 +205,7 @@ public abstract class DomainEntityBase
                 AuditableInfo.CreatedAt,
                 AuditableInfo.LastUpdatedBy,
                 AuditableInfo.LastUpdatedAt,
-                AuditableInfo.LastSourcePlatform,
+                AuditableInfo.LastSourcePlatform!,
                 RegistryVersion
             )
             .SetValidationInfo<TDomainEntityBase>(ValidationInfo)
