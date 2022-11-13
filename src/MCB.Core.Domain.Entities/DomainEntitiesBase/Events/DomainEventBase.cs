@@ -8,12 +8,12 @@ public abstract record DomainEventBase
 {
     // Public Methods
     public Guid Id { get; }
-    public DateTimeOffset Timestamp { get; }
+    public DateTime Timestamp { get; }
     public string DomainEventType { get; }
     public IAggregationRoot AggregationRoot { get; }
 
     // Constructors
-    protected DomainEventBase(Guid id, DateTimeOffset timestamp, string domainEventType, IAggregationRoot aggregationRoot)
+    protected DomainEventBase(Guid id, DateTime timestamp, string domainEventType, IAggregationRoot aggregationRoot)
     {
         Id = id;
         Timestamp = timestamp;

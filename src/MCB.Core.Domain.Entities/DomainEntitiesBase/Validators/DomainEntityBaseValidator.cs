@@ -49,7 +49,7 @@ public abstract class DomainEntityBaseValidator<TDomainEntityBase>
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedAtSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.AuditableInfo.CreatedAt)
-            .Must(CreatedAt => CreatedAt > default(DateTimeOffset) && CreatedAt < DateTimeOffset.UtcNow)
+            .Must(CreatedAt => CreatedAt > default(DateTime) && CreatedAt < DateTime.UtcNow)
             .WithErrorCode(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedAtWithValidLengthErrorCode)
             .WithMessage(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedAtWithValidLengthMessage)
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedAtWithValidLengthSeverity);
@@ -64,7 +64,7 @@ public abstract class DomainEntityBaseValidator<TDomainEntityBase>
 
         // LastUpdatedAt
         fluentValidationValidatorWrapper.RuleFor(input => input.AuditableInfo.LastUpdatedAt)
-            .Must(LastUpdatedAt => LastUpdatedAt > default(DateTimeOffset) && LastUpdatedAt < DateTimeOffset.UtcNow)
+            .Must(LastUpdatedAt => LastUpdatedAt > default(DateTime) && LastUpdatedAt < DateTime.UtcNow)
             .WithErrorCode(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedAtWithValidLengthErrorCode)
             .WithMessage(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedAtWithValidLengthMessage)
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedAtWithValidLengthSeverity);
@@ -91,22 +91,22 @@ public abstract class DomainEntityBaseValidator<TDomainEntityBase>
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveRegistryVersionSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.RegistryVersion)
-            .Must(RegistryVersion => RegistryVersion > default(DateTimeOffset) && RegistryVersion < DateTimeOffset.UtcNow)
+            .Must(RegistryVersion => RegistryVersion > default(DateTime) && RegistryVersion < DateTime.UtcNow)
             .WithErrorCode(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveRegistryVersionWithValidLengthErrorCode)
             .WithMessage(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveRegistryVersionWithValidLengthMessage)
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveRegistryVersionWithValidLengthSeverity);
 
         // CreatedBy and CreatedAt combination
         fluentValidationValidatorWrapper.RuleFor(input => input)
-            .Must(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.CreatedBy) && input.AuditableInfo.CreatedAt > default(DateTimeOffset))
+            .Must(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.CreatedBy) && input.AuditableInfo.CreatedAt > default(DateTime))
             .WithErrorCode(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedByAndCreatedAtErrorCode)
             .WithMessage(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedByAndCreatedAtMessage)
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveCreatedByAndCreatedAtSeverity);
 
         // LastUpdatedBy and LastUpdatedAt combination
         fluentValidationValidatorWrapper.RuleFor(input => input)
-            .Must(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.LastUpdatedBy) && input.AuditableInfo.LastUpdatedAt > default(DateTimeOffset))
-            .When(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.LastUpdatedBy) || input.AuditableInfo.LastUpdatedAt > default(DateTimeOffset))
+            .Must(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.LastUpdatedBy) && input.AuditableInfo.LastUpdatedAt > default(DateTime))
+            .When(input => !string.IsNullOrWhiteSpace(input.AuditableInfo.LastUpdatedBy) || input.AuditableInfo.LastUpdatedAt > default(DateTime))
             .WithErrorCode(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedByAndLastUpdatedAtErrorCode)
             .WithMessage(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedByAndLastUpdatedAtMessage)
             .WithSeverity(IDomainEntityBaseValidator.DomainEntityBaseShouldHaveLastUpdatedByAndLastUpdatedAtSeverity);

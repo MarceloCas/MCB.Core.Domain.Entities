@@ -55,11 +55,11 @@ public class DomainEntityBaseTest
         var id = Guid.NewGuid();
         var tenantId = Guid.NewGuid();
         var createdBy = "marcelo.castelo@outlook.com";
-        var createdAt = dateTimeProvider.GetDate();
+        var createdAt = dateTimeProvider.GetDate().UtcDateTime;
         var updatedBy = "marcelo.castelo@github.com";
-        var updatedAt = dateTimeProvider.GetDate();
+        var updatedAt = dateTimeProvider.GetDate().UtcDateTime;
         var sourcePlatform = "AppDemo";
-        var registryVersion = dateTimeProvider.GetDate();
+        var registryVersion = dateTimeProvider.GetDate().UtcDateTime;
 
         // Act
         customer.SetExistingInfoExposed(id, tenantId, createdBy, createdAt, updatedBy, updatedAt, sourcePlatform, registryVersion);
@@ -237,11 +237,11 @@ public class DomainEntityBaseTest
             id: Guid.NewGuid(),
             tenantId: Guid.NewGuid(),
             createdBy: Guid.NewGuid().ToString(),
-            createdAt: dateTimeProvider.GetDate(),
+            createdAt: dateTimeProvider.GetDate().UtcDateTime,
             updatedBy: Guid.NewGuid().ToString(),
-            updatedAt: dateTimeProvider.GetDate(),
+            updatedAt: dateTimeProvider.GetDate().UtcDateTime,
             sourcePlatform: Guid.NewGuid().ToString(),
-            registryVersion: dateTimeProvider.GetDate()
+            registryVersion: dateTimeProvider.GetDate().UtcDateTime
         );
 
         // Assert
@@ -462,11 +462,11 @@ public class DomainEntityBaseTest
             Guid id,
             Guid tenantId,
             string createdBy,
-            DateTimeOffset createdAt,
+            DateTime createdAt,
             string updatedBy,
-            DateTimeOffset? updatedAt,
+            DateTime? updatedAt,
             string sourcePlatform,
-            DateTimeOffset registryVersion
+            DateTime registryVersion
         ) => SetExistingInfoInternal<Customer>(id, tenantId, createdBy, createdAt, updatedBy, updatedAt, sourcePlatform, registryVersion);
 
         public DomainEntityBase RegisterModificationExposed(

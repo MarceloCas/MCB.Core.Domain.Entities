@@ -19,7 +19,7 @@ public abstract class DomainEntityBase
     public Guid Id { get; private set; }
     public Guid TenantId { get; private set; }
     public AuditableInfoValueObject AuditableInfo { get; private set; }
-    public DateTimeOffset RegistryVersion { get; private set; }
+    public DateTime RegistryVersion { get; private set; }
     public ValidationInfoValueObject ValidationInfo => _validationInfoValueObject.Clone();
 
     // Constructors
@@ -53,7 +53,7 @@ public abstract class DomainEntityBase
         TenantId = tenantId;
         return (TDomainEntityBase)this;
     }
-    private TDomainEntityBase SetAuditableInfo<TDomainEntityBase>(string createdBy, DateTimeOffset createdAt, string? updatedBy, DateTimeOffset? updatedAt, string sourcePlatform)
+    private TDomainEntityBase SetAuditableInfo<TDomainEntityBase>(string createdBy, DateTime createdAt, string? updatedBy, DateTime? updatedAt, string sourcePlatform)
         where TDomainEntityBase : DomainEntityBase
     {
         AuditableInfo = new AuditableInfoValueObject(
@@ -66,7 +66,7 @@ public abstract class DomainEntityBase
 
         return (TDomainEntityBase)this;
     }
-    private TDomainEntityBase SetRegistryVersion<TDomainEntityBase>(DateTimeOffset registryVersion)
+    private TDomainEntityBase SetRegistryVersion<TDomainEntityBase>(DateTime registryVersion)
          where TDomainEntityBase : DomainEntityBase
     {
         RegistryVersion = registryVersion;
@@ -75,7 +75,7 @@ public abstract class DomainEntityBase
     private TDomainEntityBase GenerateNewRegistryVersion<TDomainEntityBase>()
         where TDomainEntityBase : DomainEntityBase
     {
-        return SetRegistryVersion<TDomainEntityBase>(DateTimeProvider.GetDate());
+        return SetRegistryVersion<TDomainEntityBase>(DateTimeProvider.GetDate().UtcDateTime);
     }
     private TDomainEntityBase SetValidationInfo<TDomainEntityBase>(ValidationInfoValueObject validationInfoValueObject)
          where TDomainEntityBase : DomainEntityBase
@@ -158,14 +158,14 @@ public abstract class DomainEntityBase
             .SetTenant<TDomainEntityBase>(tenantId)
             .SetAuditableInfo<TDomainEntityBase>(
                 createdBy: executionUser,
-                createdAt: DateTimeProvider.GetDate(),
+                createdAt: DateTimeProvider.GetDate().UtcDateTime,
                 updatedBy: null,
                 updatedAt: null,
                 sourcePlatform
             )
             .GenerateNewRegistryVersion<TDomainEntityBase>();
     }
-    protected TDomainEntityBase SetExistingInfoInternal<TDomainEntityBase>(Guid id, Guid tenantId, string createdBy, DateTimeOffset createdAt, string? updatedBy, DateTimeOffset? updatedAt, string sourcePlatform, DateTimeOffset registryVersion)
+    protected TDomainEntityBase SetExistingInfoInternal<TDomainEntityBase>(Guid id, Guid tenantId, string createdBy, DateTime createdAt, string? updatedBy, DateTime? updatedAt, string sourcePlatform, DateTime registryVersion)
         where TDomainEntityBase : DomainEntityBase
     {
         return SetId<TDomainEntityBase>(id)
@@ -187,7 +187,7 @@ public abstract class DomainEntityBase
             createdBy: AuditableInfo.CreatedBy,
             createdAt: AuditableInfo.CreatedAt,
             updatedBy: executionUser,
-            updatedAt: DateTimeProvider.GetDate(),
+            updatedAt: DateTimeProvider.GetDate().UtcDateTime,
             sourcePlatform
         )
         .GenerateNewRegistryVersion<TDomainEntityBase>();

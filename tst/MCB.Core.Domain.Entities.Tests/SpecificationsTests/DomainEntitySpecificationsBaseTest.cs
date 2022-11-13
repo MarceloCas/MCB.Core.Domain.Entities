@@ -77,7 +77,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var createdAt = dateTimeProvider.GetDate();
+        var createdAt = dateTimeProvider.GetDate().UtcDateTime;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -92,7 +92,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
-        var createdAt = DateTimeOffset.MinValue;
+        var createdAt = DateTime.MinValue;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -108,8 +108,8 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var createdAt1 = dateTimeProvider.GetDate();
-        var createdAt2 = dateTimeProvider.GetDate().AddDays(-1);
+        var createdAt1 = dateTimeProvider.GetDate().UtcDateTime;
+        var createdAt2 = dateTimeProvider.GetDate().UtcDateTime.AddDays(-1);
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -126,8 +126,8 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
-        var createdAt1 = DateTimeOffset.MinValue;
-        var createdAt2 = dateTimeProvider.GetDate().AddDays(1);
+        var createdAt1 = DateTime.MinValue;
+        var createdAt2 = dateTimeProvider.GetDate().UtcDateTime.AddDays(1);
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -211,7 +211,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var lastUpdatedAt = dateTimeProvider.GetDate();
+        var lastUpdatedAt = dateTimeProvider.GetDate().UtcDateTime;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -226,8 +226,8 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
-        var lastUpdatedAt1 = default(DateTimeOffset?);
-        var lastUpdatedAt2 = DateTimeOffset.MinValue;
+        var lastUpdatedAt1 = default(DateTime?);
+        var lastUpdatedAt2 = DateTime.MinValue;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -245,8 +245,8 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var createdAt = dateTimeProvider.GetDate().AddDays(-1);
-        var lastUpdatedAt = dateTimeProvider.GetDate();
+        var createdAt = dateTimeProvider.GetDate().UtcDateTime.AddDays(-1);
+        var lastUpdatedAt = dateTimeProvider.GetDate().UtcDateTime;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -261,12 +261,12 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
-        var createdAt = dateTimeProvider.GetDate().AddDays(-1);
-        var lastUpdatedAt1 = default(DateTimeOffset?);
-        var lastUpdatedAt2 = DateTimeOffset.MinValue;
+        var createdAt = dateTimeProvider.GetDate().UtcDateTime.AddDays(-1);
+        var lastUpdatedAt1 = default(DateTime?);
+        var lastUpdatedAt2 = DateTime.MinValue;
         var lastUpdatedAt3 = createdAt.AddDays(-1);
         var lastUpdatedAt4 = createdAt;
-        var lastUpdatedAt5 = dateTimeProvider.GetDate().AddDays(1);
+        var lastUpdatedAt5 = dateTimeProvider.GetDate().UtcDateTime.AddDays(1);
 
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
@@ -424,7 +424,7 @@ public class DomainEntitySpecificationsBaseTest
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
-        var registryVersion = dateTimeProvider.GetDate();
+        var registryVersion = dateTimeProvider.GetDate().UtcDateTime;
 
         // Act
         var result = domainEntitySpecifications.RegistryVersionShouldRequired(registryVersion);
@@ -439,7 +439,7 @@ public class DomainEntitySpecificationsBaseTest
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
-        var registryVersion = DateTimeOffset.MinValue;
+        var registryVersion = DateTime.MinValue;
 
         // Act
         var result = domainEntitySpecifications.RegistryVersionShouldRequired(registryVersion);
@@ -456,8 +456,8 @@ public class DomainEntitySpecificationsBaseTest
         var expectedResult = true;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
-        var registryVersion1 = dateTimeProvider.GetDate();
-        var registryVersion2 = dateTimeProvider.GetDate().AddDays(-1);
+        var registryVersion1 = dateTimeProvider.GetDate().UtcDateTime;
+        var registryVersion2 = dateTimeProvider.GetDate().UtcDateTime.AddDays(-1);
 
         // Act
         var result1 = domainEntitySpecifications.RegistryVersionShouldValid(registryVersion1);
@@ -474,7 +474,7 @@ public class DomainEntitySpecificationsBaseTest
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = false;
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
-        var registryVersion = dateTimeProvider.GetDate().AddDays(1);
+        var registryVersion = dateTimeProvider.GetDate().UtcDateTime.AddDays(1);
 
         // Act
         var result = domainEntitySpecifications.RegistryVersionShouldValid(registryVersion);

@@ -26,11 +26,11 @@ public class DomainEntitySpecifications
         return tenantId != Guid.Empty;
     }
 
-    public bool CreatedAtShouldRequired(DateTimeOffset createdAt)
+    public bool CreatedAtShouldRequired(DateTime createdAt)
     {
-        return createdAt != DateTimeOffset.MinValue;
+        return createdAt != DateTime.MinValue;
     }
-    public bool CreatedAtShouldValid(DateTimeOffset createdAt)
+    public bool CreatedAtShouldValid(DateTime createdAt)
     {
         return CreatedAtShouldRequired(createdAt)
             && createdAt <= DateTimeProvider.GetDate();
@@ -46,12 +46,12 @@ public class DomainEntitySpecifications
             && createdBy.Length <= 250;
     }
 
-    public bool LastUpdatedAtShouldRequired(DateTimeOffset? lastUpdatedAt)
+    public bool LastUpdatedAtShouldRequired(DateTime? lastUpdatedAt)
     {
         return lastUpdatedAt != null
-            && lastUpdatedAt != DateTimeOffset.MinValue;
+            && lastUpdatedAt != DateTime.MinValue;
     }
-    public bool LastUpdatedAtShouldValid(DateTimeOffset? lastUpdatedAt, DateTimeOffset createdAt)
+    public bool LastUpdatedAtShouldValid(DateTime? lastUpdatedAt, DateTime createdAt)
     {
         return LastUpdatedAtShouldRequired(lastUpdatedAt)
             && lastUpdatedAt > createdAt
@@ -78,11 +78,11 @@ public class DomainEntitySpecifications
             && lastSourcePlatform.Length <= 250;
     }
 
-    public bool RegistryVersionShouldRequired(DateTimeOffset registryVersion)
+    public bool RegistryVersionShouldRequired(DateTime registryVersion)
     {
-        return registryVersion != DateTimeOffset.MinValue;
+        return registryVersion != DateTime.MinValue;
     }
-    public bool RegistryVersionShouldValid(DateTimeOffset registryVersion)
+    public bool RegistryVersionShouldValid(DateTime registryVersion)
     {
         return RegistryVersionShouldRequired(registryVersion)
             && registryVersion <= DateTimeProvider.GetDate();
