@@ -8,15 +8,29 @@ public abstract record DomainEventBase
 {
     // Public Methods
     public Guid Id { get; }
+    public Guid TenantId { get; }
     public DateTime Timestamp { get; }
+    public string ExecutionUser { get; }
+    public string SourcePlatform { get; }
     public string DomainEventType { get; }
     public IAggregationRoot AggregationRoot { get; }
 
     // Constructors
-    protected DomainEventBase(Guid id, DateTime timestamp, string domainEventType, IAggregationRoot aggregationRoot)
+    protected DomainEventBase(
+        Guid id, 
+        Guid tenantId,
+        DateTime timestamp, 
+        string executionUser,
+        string sourcePlatform,
+        string domainEventType, 
+        IAggregationRoot aggregationRoot
+    )
     {
         Id = id;
+        TenantId = tenantId;
         Timestamp = timestamp;
+        ExecutionUser = executionUser;
+        SourcePlatform = sourcePlatform;
         DomainEventType = domainEventType;
         AggregationRoot = aggregationRoot;
     }
