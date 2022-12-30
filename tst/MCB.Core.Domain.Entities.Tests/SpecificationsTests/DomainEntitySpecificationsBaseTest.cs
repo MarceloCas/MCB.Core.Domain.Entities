@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MCB.Core.Domain.Entities.Abstractions.Specifications;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications;
 using MCB.Core.Infra.CrossCutting.Abstractions.DateTime;
 using MCB.Core.Infra.CrossCutting.DateTime;
@@ -176,7 +177,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var createdBy = new string('a', 250);
+        var createdBy = new string('a', IDomainEntitySpecifications.DOMAIN_ENTITY_CREATED_BY_MAX_LENGTH);
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -322,7 +323,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var lastUpdatedBy = new string('a', 250);
+        var lastUpdatedBy = new string('a', IDomainEntitySpecifications.DOMAIN_ENTITY_LAST_UPDATED_BY_MAX_LENGTH);
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act
@@ -388,7 +389,7 @@ public class DomainEntitySpecificationsBaseTest
         // Arrange
         var dateTimeProvider = new DateTimeProvider();
         var expectedResult = true;
-        var lastSourcePlatform = new string('a', 250);
+        var lastSourcePlatform = new string('a', IDomainEntitySpecifications.DOMAIN_ENTITY_LAST_SOURCE_PLATFORM_MAX_LENGTH);
         var domainEntitySpecifications = new DummyDomainEntitySpecifications(dateTimeProvider);
 
         // Act

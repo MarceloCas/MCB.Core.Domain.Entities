@@ -2,6 +2,8 @@
 using FluentValidation;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Inputs;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Validators.Interfaces;
+using MCB.Core.Domain.Entities.Abstractions.Specifications;
+using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications.Interfaces;
 
 namespace MCB.Core.Domain.Entities.DomainEntitiesBase.Validators;
 
@@ -10,37 +12,46 @@ public abstract class InputBaseValidator<TInputBase>
     IInputBaseValidator<TInputBase>
     where TInputBase : InputBase
 {
+    // Properties
+    protected IInputBaseSpecifications InputBaseSpecifications { get; }
+
+    // Constructors
+    protected InputBaseValidator(IInputBaseSpecifications inputBaseSpecifications)
+    {
+        InputBaseSpecifications = inputBaseSpecifications;
+    }
+
     // Protected Methods
     protected override void ConfigureFluentValidationConcreteValidator(FluentValidationValidatorWrapper fluentValidationValidatorWrapper)
     {
         fluentValidationValidatorWrapper.RuleFor(input => input.TenantId)
-            .Must(tenantId => tenantId != Guid.Empty)
+            .Must(InputBaseSpecifications.TenantIdShouldRequired)
             .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveTenantIdErrorCode)
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveTenantIdMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveTenantIdSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.ExecutionUser)
-            .Must(executionUser => !string.IsNullOrWhiteSpace(executionUser))
+            .Must(InputBaseSpecifications.ExecutionUserShouldRequired)
             .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveExecutionUserErrorCode)
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveExecutionUserMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveExecutionUserSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.ExecutionUser)
-            .Must(executionUser => executionUser?.Length <= 150)
-            .When(inputBase => !string.IsNullOrWhiteSpace(inputBase.ExecutionUser))
+            .Must(InputBaseSpecifications.ExecutionUserShouldValid)
+            .When(inputBase => InputBaseSpecifications.ExecutionUserShouldRequired(inputBase.ExecutionUser))
             .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveExecutionUserWithValidLengthErrorCode)
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveExecutionUserWithValidLengthMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveExecutionUserWithValidLengthSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.SourcePlatform)
-            .Must(sourcePlatform => !string.IsNullOrWhiteSpace(sourcePlatform))
+            .Must(InputBaseSpecifications.SourcePlatformShouldRequired)
             .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveSourcePlatformErrorCode)
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveSourcePlatformMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveSourcePlatformSeverity);
 
         fluentValidationValidatorWrapper.RuleFor(input => input.SourcePlatform)
-            .Must(sourcePlatform => sourcePlatform?.Length <= 150)
-            .When(inputBase => !string.IsNullOrWhiteSpace(inputBase.SourcePlatform))
+            .Must(InputBaseSpecifications.SourcePlatformShouldValid)
+            .When(inputBase => InputBaseSpecifications.SourcePlatformShouldRequired(inputBase.SourcePlatform))
             .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveSourcePlatformWithValidLengthErrorCode)
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveSourcePlatformWithValidLengthMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveSourcePlatformWithValidLengthSeverity);

@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Inputs;
+using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications;
+using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications.Interfaces;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Validators;
 using MCB.Core.Infra.CrossCutting.DesignPatterns.Validator;
 using System;
@@ -27,7 +29,9 @@ public class InputBaseValidatorTest
         // Assert
         validationResult.Should().NotBeNull();
         validationResult.IsValid.Should().BeTrue();
-        validationResult.HasError.Should().BeFalse();
+        validationResult.HasInformationMessages.Should().BeFalse();
+        validationResult.HasErrorMessages.Should().BeFalse();
+        validationResult.HasWariningMessages.Should().BeFalse();
         validationResult.HasValidationMessage.Should().BeFalse();
         validationResult.ValidationMessageCollection.Should().BeEmpty();
     }
@@ -49,7 +53,7 @@ public class InputBaseValidatorTest
         // Assert
         validationResult.Should().NotBeNull();
         validationResult.IsValid.Should().BeFalse();
-        validationResult.HasError.Should().BeTrue();
+        validationResult.HasErrorMessages.Should().BeTrue();
         validationResult.HasValidationMessage.Should().BeTrue();
         validationResult.ValidationMessageCollection.Should().NotBeEmpty();
         validationResult.ValidationMessageCollection.Should().HaveCount(3);
@@ -72,7 +76,7 @@ public class InputBaseValidatorTest
         // Assert
         validationResult.Should().NotBeNull();
         validationResult.IsValid.Should().BeFalse();
-        validationResult.HasError.Should().BeTrue();
+        validationResult.HasErrorMessages.Should().BeTrue();
         validationResult.HasValidationMessage.Should().BeTrue();
         validationResult.ValidationMessageCollection.Should().NotBeEmpty();
         validationResult.ValidationMessageCollection.Should().HaveCount(2);
@@ -96,6 +100,11 @@ public record DummyInput
 public class DummyInputValidator
     : InputBaseValidator<DummyInput>
 {
+    public DummyInputValidator() 
+        : base(new InputBaseSpecifications())
+    {
+    }
+
     protected override void ConfigureFluentValidationConcreteValidatorInternal(ValidatorBase<DummyInput>.FluentValidationValidatorWrapper fluentValidationValidatorWrapper)
     {
 

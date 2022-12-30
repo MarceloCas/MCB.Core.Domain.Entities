@@ -43,7 +43,7 @@ public class DomainEntitySpecifications
     public bool CreatedByShouldValid(string createdBy)
     {
         return CreatedByShouldRequired(createdBy)
-            && createdBy.Length <= 250;
+            && createdBy.Length <= IDomainEntitySpecifications.DOMAIN_ENTITY_CREATED_BY_MAX_LENGTH;
     }
 
     public bool LastUpdatedAtShouldRequired(DateTime? lastUpdatedAt)
@@ -58,14 +58,14 @@ public class DomainEntitySpecifications
             && lastUpdatedAt <= DateTimeProvider.GetDate();
     }
 
-    public bool LastUpdatedByShouldRequired(string lastUpdatedBy)
+    public bool LastUpdatedByShouldRequired(string? lastUpdatedBy)
     {
         return !string.IsNullOrWhiteSpace(lastUpdatedBy);
     }
-    public bool LastUpdatedByShouldValid(string lastUpdatedBy)
+    public bool LastUpdatedByShouldValid(string? lastUpdatedBy)
     {
         return LastUpdatedByShouldRequired(lastUpdatedBy)
-            && lastUpdatedBy.Length <= 250;
+            && lastUpdatedBy!.Length <= IDomainEntitySpecifications.DOMAIN_ENTITY_LAST_UPDATED_BY_MAX_LENGTH;
     }
 
     public bool LastSourcePlatformShouldRequired(string lastSourcePlatform)
@@ -75,7 +75,7 @@ public class DomainEntitySpecifications
     public bool LastSourcePlatformShouldValid(string lastSourcePlatform)
     {
         return LastSourcePlatformShouldRequired(lastSourcePlatform)
-            && lastSourcePlatform.Length <= 250;
+            && lastSourcePlatform.Length <= IDomainEntitySpecifications.DOMAIN_ENTITY_LAST_SOURCE_PLATFORM_MAX_LENGTH;
     }
 
     public bool RegistryVersionShouldRequired(DateTime registryVersion)

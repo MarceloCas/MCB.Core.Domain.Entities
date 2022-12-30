@@ -41,7 +41,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
         customer.ValidationInfo.HasValidationMessage.Should().BeFalse();
-        customer.ValidationInfo.HasError.Should().BeFalse();
+        customer.ValidationInfo.HasErrorMessages.Should().BeFalse();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(0);
     }
@@ -76,7 +76,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
         customer.ValidationInfo.HasValidationMessage.Should().BeFalse();
-        customer.ValidationInfo.HasError.Should().BeFalse();
+        customer.ValidationInfo.HasErrorMessages.Should().BeFalse();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(0);
     }
@@ -116,7 +116,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
         customer.ValidationInfo.HasValidationMessage.Should().BeFalse();
-        customer.ValidationInfo.HasError.Should().BeFalse();
+        customer.ValidationInfo.HasErrorMessages.Should().BeFalse();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(0);
     }
@@ -141,7 +141,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeFalse();
         customer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer.ValidationInfo.HasError.Should().BeTrue();
+        customer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
@@ -160,7 +160,7 @@ public class DomainEntityBaseTest
         customer2.ValidationInfo.Should().NotBeNull();
         customer2.ValidationInfo.IsValid.Should().BeFalse();
         customer2.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer2.ValidationInfo.HasError.Should().BeTrue();
+        customer2.ValidationInfo.HasErrorMessages.Should().BeTrue();
         customer2.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer2.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
@@ -194,7 +194,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeFalse();
         customer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer.ValidationInfo.HasError.Should().BeTrue();
+        customer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
@@ -257,7 +257,7 @@ public class DomainEntityBaseTest
         newCustomer.ValidationInfo.Should().NotBeNull();
         newCustomer.ValidationInfo.IsValid.Should().BeFalse();
         newCustomer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        newCustomer.ValidationInfo.HasError.Should().BeTrue();
+        newCustomer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         newCustomer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         newCustomer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
@@ -287,7 +287,7 @@ public class DomainEntityBaseTest
         // Assert
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer.ValidationInfo.HasError.Should().BeTrue();
+        customer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         isValid.Should().BeFalse();
         customer.ValidationInfo.IsValid.Should().Be(isValid);
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
@@ -327,7 +327,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeFalse();
         customer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer.ValidationInfo.HasError.Should().BeTrue();
+        customer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
@@ -363,7 +363,7 @@ public class DomainEntityBaseTest
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeFalse();
         customer.ValidationInfo.HasValidationMessage.Should().BeTrue();
-        customer.ValidationInfo.HasError.Should().BeTrue();
+        customer.ValidationInfo.HasErrorMessages.Should().BeTrue();
         customer.ValidationInfo.ValidationMessageCollection.Should().NotBeNull();
         customer.ValidationInfo.ValidationMessageCollection.Should().HaveCount(3);
 
