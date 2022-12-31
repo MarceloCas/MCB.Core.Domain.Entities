@@ -2,7 +2,6 @@
 using FluentValidation;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Inputs;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Validators.Interfaces;
-using MCB.Core.Domain.Entities.Abstractions.Specifications;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications.Interfaces;
 
 namespace MCB.Core.Domain.Entities.DomainEntitiesBase.Validators;

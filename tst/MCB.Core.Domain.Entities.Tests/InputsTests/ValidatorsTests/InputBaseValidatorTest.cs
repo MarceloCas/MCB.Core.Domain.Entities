@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Inputs;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications;
-using MCB.Core.Domain.Entities.DomainEntitiesBase.Specifications.Interfaces;
 using MCB.Core.Domain.Entities.DomainEntitiesBase.Validators;
 using MCB.Core.Infra.CrossCutting.DesignPatterns.Validator;
 using System;
