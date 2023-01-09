@@ -53,15 +53,16 @@ public abstract class DomainEntityBase
         TenantId = tenantId;
         return (TDomainEntityBase)this;
     }
-    private TDomainEntityBase SetAuditableInfo<TDomainEntityBase>(string createdBy, DateTime createdAt, string? updatedBy, DateTime? updatedAt, string sourcePlatform)
+    private TDomainEntityBase SetAuditableInfo<TDomainEntityBase>(string createdBy, DateTime createdAt, string? lastUpdatedBy, DateTime? lastUpdatedAt, string lastSourcePlatform, Guid lastCorrelationId)
         where TDomainEntityBase : DomainEntityBase
     {
         AuditableInfo = new AuditableInfoValueObject(
             createdBy,
             createdAt,
-            updatedBy,
-            updatedAt,
-            sourcePlatform
+            lastUpdatedBy,
+            lastUpdatedAt,
+            lastSourcePlatform,
+            lastCorrelationId
         );
 
         return (TDomainEntityBase)this;
@@ -151,7 +152,7 @@ public abstract class DomainEntityBase
         return ValidationInfo.IsValid;
     }
 
-    protected TDomainEntityBase RegisterNewInternal<TDomainEntityBase>(Guid tenantId, string executionUser, string sourcePlatform)
+    protected TDomainEntityBase RegisterNewInternal<TDomainEntityBase>(Guid tenantId, string executionUser, string sourcePlatform, Guid correlationId)
         where TDomainEntityBase : DomainEntityBase
     {
         return GenerateNewId<TDomainEntityBase>()
@@ -159,13 +160,14 @@ public abstract class DomainEntityBase
             .SetAuditableInfo<TDomainEntityBase>(
                 createdBy: executionUser,
                 createdAt: DateTimeProvider.GetDate().UtcDateTime,
-                updatedBy: null,
-                updatedAt: null,
-                sourcePlatform
+                lastUpdatedBy: null,
+                lastUpdatedAt: null,
+                lastSourcePlatform: sourcePlatform,
+                lastCorrelationId: correlationId
             )
             .GenerateNewRegistryVersion<TDomainEntityBase>();
     }
-    protected TDomainEntityBase SetExistingInfoInternal<TDomainEntityBase>(Guid id, Guid tenantId, string createdBy, DateTime createdAt, string? updatedBy, DateTime? updatedAt, string sourcePlatform, DateTime registryVersion)
+    protected TDomainEntityBase SetExistingInfoInternal<TDomainEntityBase>(Guid id, Guid tenantId, string createdBy, DateTime createdAt, string? lastUpdatedBy, DateTime? lastUpdatedAt, string lastSourcePlatform, DateTime registryVersion, Guid lastCorrelationId)
         where TDomainEntityBase : DomainEntityBase
     {
         return SetId<TDomainEntityBase>(id)
@@ -173,22 +175,24 @@ public abstract class DomainEntityBase
             .SetAuditableInfo<TDomainEntityBase>(
                 createdBy,
                 createdAt,
-                updatedBy,
-                updatedAt,
-                sourcePlatform
+                lastUpdatedBy,
+                lastUpdatedAt,
+                lastSourcePlatform,
+                lastCorrelationId
             )
             .SetRegistryVersion<TDomainEntityBase>(registryVersion);
     }
 
-    protected TDomainEntityBase RegisterModificationInternal<TDomainEntityBase>(string executionUser, string sourcePlatform)
+    protected TDomainEntityBase RegisterModificationInternal<TDomainEntityBase>(string executionUser, string sourcePlatform, Guid correlationId)
         where TDomainEntityBase : DomainEntityBase
     {
         return SetAuditableInfo<TDomainEntityBase>(
             createdBy: AuditableInfo.CreatedBy,
             createdAt: AuditableInfo.CreatedAt,
-            updatedBy: executionUser,
-            updatedAt: DateTimeProvider.GetDate().UtcDateTime,
-            sourcePlatform
+            lastUpdatedBy: executionUser,
+            lastUpdatedAt: DateTimeProvider.GetDate().UtcDateTime,
+            lastSourcePlatform: sourcePlatform,
+            lastCorrelationId: correlationId
         )
         .GenerateNewRegistryVersion<TDomainEntityBase>();
     }
@@ -206,7 +210,8 @@ public abstract class DomainEntityBase
                 AuditableInfo.LastUpdatedBy,
                 AuditableInfo.LastUpdatedAt,
                 AuditableInfo.LastSourcePlatform!,
-                RegistryVersion
+                RegistryVersion,
+                AuditableInfo.LastCorrelationId
             )
             .SetValidationInfo<TDomainEntityBase>(ValidationInfo)
             .SetDateTimeProvider<TDomainEntityBase>(DateTimeProvider);

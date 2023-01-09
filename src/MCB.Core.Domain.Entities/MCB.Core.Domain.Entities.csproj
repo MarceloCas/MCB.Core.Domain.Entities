@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MCB.Core.Domain.Entities.Abstractions" Version="0.36.0-alpha" />
+		<PackageReference Include="MCB.Core.Domain.Entities.Abstractions" Version="0.38.0-alpha" />
 		<PackageReference Include="MCB.Core.Infra.CrossCutting.Abstractions" Version="0.7.0-alpha" />
 		<PackageReference Include="MCB.Core.Infra.CrossCutting.DependencyInjection.Abstractions" Version="0.7.0-alpha" />
 		<PackageReference Include="MCB.Core.Infra.CrossCutting.DesignPatterns.Validator" Version="0.18.0-alpha" />

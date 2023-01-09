@@ -22,12 +22,13 @@ public class DomainEntityBaseTest
         var customer = new Customer(dateTimeProvider);
         var tenantId = Guid.NewGuid();
         var executionUser = "marcelo.castelo@outlook.com";
-        var sourcePlatform = "AppDemo";
+        var lastSourcePlatform = "AppDemo";
         var initialCreatedAt = customer.AuditableInfo.CreatedAt;
         var initialRegistryVersion = customer.RegistryVersion;
+        var correlationId = Guid.NewGuid();
 
         // Act
-        customer.RegisterNewExposed(tenantId, executionUser, sourcePlatform);
+        customer.RegisterNewExposed(tenantId, executionUser, lastSourcePlatform, correlationId);
 
         // Assert
         customer.Id.Should().NotBe(default(Guid));
@@ -36,7 +37,7 @@ public class DomainEntityBaseTest
         customer.AuditableInfo.CreatedAt.Should().BeAfter(initialCreatedAt);
         customer.AuditableInfo.LastUpdatedBy.Should().BeNull();
         customer.AuditableInfo.LastUpdatedAt.Should().BeNull();
-        customer.AuditableInfo.LastSourcePlatform.Should().Be(sourcePlatform);
+        customer.AuditableInfo.LastSourcePlatform.Should().Be(lastSourcePlatform);
         customer.RegistryVersion.Should().BeAfter(initialRegistryVersion);
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
@@ -56,22 +57,24 @@ public class DomainEntityBaseTest
         var tenantId = Guid.NewGuid();
         var createdBy = "marcelo.castelo@outlook.com";
         var createdAt = dateTimeProvider.GetDate().UtcDateTime;
-        var updatedBy = "marcelo.castelo@github.com";
-        var updatedAt = dateTimeProvider.GetDate().UtcDateTime;
-        var sourcePlatform = "AppDemo";
+        var lastUpdatedBy = "marcelo.castelo@github.com";
+        var lastUpdatedAt = dateTimeProvider.GetDate().UtcDateTime;
+        var lastSourcePlatform = "AppDemo";
         var registryVersion = dateTimeProvider.GetDate().UtcDateTime;
+        var correlationId = Guid.NewGuid();
 
         // Act
-        customer.SetExistingInfoExposed(id, tenantId, createdBy, createdAt, updatedBy, updatedAt, sourcePlatform, registryVersion);
+        customer.SetExistingInfoExposed(id, tenantId, createdBy, createdAt, lastUpdatedBy, lastUpdatedAt, lastSourcePlatform, registryVersion, correlationId);
 
         // Assert
         customer.Id.Should().Be(id);
         customer.TenantId.Should().Be(tenantId);
         customer.AuditableInfo.CreatedBy.Should().Be(createdBy);
         customer.AuditableInfo.CreatedAt.Should().Be(createdAt);
-        customer.AuditableInfo.LastUpdatedBy.Should().Be(updatedBy);
-        customer.AuditableInfo.LastUpdatedAt.Should().Be(updatedAt);
-        customer.AuditableInfo.LastSourcePlatform.Should().Be(sourcePlatform);
+        customer.AuditableInfo.LastUpdatedBy.Should().Be(lastUpdatedBy);
+        customer.AuditableInfo.LastUpdatedAt.Should().Be(lastUpdatedAt);
+        customer.AuditableInfo.LastSourcePlatform.Should().Be(lastSourcePlatform);
+        customer.AuditableInfo.LastCorrelationId.Should().Be(correlationId);
         customer.RegistryVersion.Should().Be(registryVersion);
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
@@ -89,29 +92,34 @@ public class DomainEntityBaseTest
         var customer = new Customer(dateTimeProvider);
         var tenantId = Guid.NewGuid();
         var executionUser = "marcelo.castelo@outlook.com";
-        var sourcePlatform = "AppDemo";
-        customer.RegisterNewExposed(tenantId, executionUser, sourcePlatform);
+        var lastSourcePlatform = "AppDemo";
+        var correlationId = Guid.NewGuid();
+        customer.RegisterNewExposed(tenantId, executionUser, lastSourcePlatform, correlationId);
 
         var initialId = customer.Id;
         var initialCreatedBy = customer.AuditableInfo.CreatedBy;
         var initialCreatedAt = customer.AuditableInfo.CreatedAt;
         var initialUpdatedAt = customer.AuditableInfo.LastUpdatedAt;
         var initialRegistryVersion = customer.RegistryVersion;
+        var initialCorrelationId = customer.AuditableInfo.LastCorrelationId;
 
         var modificationExecutionUser = "marcelo.castelo@github.com";
         var modificationSourcePlatform = "AppDemo2";
+        var modificationCorrelationId = Guid.NewGuid();
 
         // Act
-        customer.RegisterModificationExposed(modificationExecutionUser, modificationSourcePlatform);
+        customer.RegisterModificationExposed(modificationExecutionUser, modificationSourcePlatform, modificationCorrelationId);
 
         // Assert
         customer.Id.Should().Be(initialId);
         customer.TenantId.Should().Be(tenantId);
         customer.AuditableInfo.CreatedBy.Should().Be(initialCreatedBy);
         customer.AuditableInfo.CreatedAt.Should().Be(initialCreatedAt);
+        customer.AuditableInfo.LastCorrelationId.Should().NotBe(initialCorrelationId);
         customer.AuditableInfo.LastUpdatedBy.Should().Be(modificationExecutionUser);
         customer.AuditableInfo.LastUpdatedAt.Should().BeAfter(initialUpdatedAt ?? default);
         customer.AuditableInfo.LastSourcePlatform.Should().Be(modificationSourcePlatform);
+        customer.AuditableInfo.LastCorrelationId.Should().Be(modificationCorrelationId);
         customer.RegistryVersion.Should().BeAfter(initialRegistryVersion);
         customer.ValidationInfo.Should().NotBeNull();
         customer.ValidationInfo.IsValid.Should().BeTrue();
@@ -218,12 +226,14 @@ public class DomainEntityBaseTest
         var dateTimeProvider = new DateTimeProvider();
         var customer = new Customer(dateTimeProvider);
         var tenantId = Guid.NewGuid();
+        var correlationId = Guid.NewGuid();
         var executionUser = "marcelo.castelo@outlook.com";
-        var sourcePlatform = "AppDemo";
+        var lastSourcePlatform = "AppDemo";
         var initialCreatedAt = customer.AuditableInfo.CreatedAt;
         var initialRegistryVersion = customer.RegistryVersion;
+        var initialLastCorrelationId = customer.AuditableInfo.LastCorrelationId;
 
-        customer.RegisterNewExposed(tenantId, executionUser, sourcePlatform);
+        customer.RegisterNewExposed(tenantId, executionUser, lastSourcePlatform, correlationId);
 
         customer.AddInformationValidationMessage("INFO_1", "INFORMATION");
         customer.AddWarningValidationMessage("WARNING_1", "WARNING");
@@ -238,10 +248,11 @@ public class DomainEntityBaseTest
             tenantId: Guid.NewGuid(),
             createdBy: Guid.NewGuid().ToString(),
             createdAt: dateTimeProvider.GetDate().UtcDateTime,
-            updatedBy: Guid.NewGuid().ToString(),
-            updatedAt: dateTimeProvider.GetDate().UtcDateTime,
-            sourcePlatform: Guid.NewGuid().ToString(),
-            registryVersion: dateTimeProvider.GetDate().UtcDateTime
+            lastUpdatedBy: Guid.NewGuid().ToString(),
+            lastUpdatedAt: dateTimeProvider.GetDate().UtcDateTime,
+            lastSourcePlatform: Guid.NewGuid().ToString(),
+            registryVersion: dateTimeProvider.GetDate().UtcDateTime,
+            correlationId
         );
 
         // Assert
@@ -249,9 +260,11 @@ public class DomainEntityBaseTest
         newCustomer.TenantId.Should().Be(tenantId);
         newCustomer.AuditableInfo.CreatedBy.Should().Be(executionUser);
         newCustomer.AuditableInfo.CreatedAt.Should().BeAfter(initialCreatedAt);
+        newCustomer.AuditableInfo.LastCorrelationId.Should().NotBe(initialLastCorrelationId);
         newCustomer.AuditableInfo.LastUpdatedBy.Should().BeNull();
         newCustomer.AuditableInfo.LastUpdatedAt.Should().BeNull();
-        newCustomer.AuditableInfo.LastSourcePlatform.Should().Be(sourcePlatform);
+        newCustomer.AuditableInfo.LastSourcePlatform.Should().Be(lastSourcePlatform);
+        newCustomer.AuditableInfo.LastCorrelationId.Should().Be(correlationId);
         newCustomer.RegistryVersion.Should().BeAfter(initialRegistryVersion);
 
         newCustomer.ValidationInfo.Should().NotBeNull();
@@ -455,24 +468,27 @@ public class DomainEntityBaseTest
         public DomainEntityBase RegisterNewExposed(
             Guid tenantId,
             string executionUser,
-            string sourcePlatform
-        ) => RegisterNewInternal<Customer>(tenantId, executionUser, sourcePlatform);
+            string lastSourcePlatform,
+            Guid correlationId
+        ) => RegisterNewInternal<Customer>(tenantId, executionUser, lastSourcePlatform, correlationId: correlationId);
 
         public DomainEntityBase SetExistingInfoExposed(
             Guid id,
             Guid tenantId,
             string createdBy,
             DateTime createdAt,
-            string updatedBy,
-            DateTime? updatedAt,
-            string sourcePlatform,
-            DateTime registryVersion
-        ) => SetExistingInfoInternal<Customer>(id, tenantId, createdBy, createdAt, updatedBy, updatedAt, sourcePlatform, registryVersion);
+            string lastUpdatedBy,
+            DateTime? lastUpdatedAt,
+            string lastSourcePlatform,
+            DateTime registryVersion,
+            Guid correlationId
+        ) => SetExistingInfoInternal<Customer>(id, tenantId, createdBy, createdAt, lastUpdatedBy, lastUpdatedAt, lastSourcePlatform, registryVersion, lastCorrelationId: correlationId);
 
         public DomainEntityBase RegisterModificationExposed(
             string executionUser,
-            string sourcePlatform
-        ) => RegisterModificationInternal<Customer>(executionUser, sourcePlatform);
+            string lastSourcePlatform,
+            Guid correlationId
+        ) => RegisterModificationInternal<Customer>(executionUser, lastSourcePlatform, correlationId);
 
         public Customer DeepCloneInternalExposed()
             => DeepCloneInternal<Customer>();
