@@ -55,6 +55,13 @@ public abstract class InputBaseValidator<TInputBase>
             .WithMessage(IInputBaseValidator.InputBaseShouldHaveSourcePlatformWithValidLengthMessage)
             .WithSeverity(IInputBaseValidator.InputBaseShouldHaveSourcePlatformWithValidLengthSeverity);
 
+
+        fluentValidationValidatorWrapper.RuleFor(input => input.CorrelationId)
+            .Must(InputBaseSpecifications.CorrelationIdShouldRequired)
+            .WithErrorCode(IInputBaseValidator.InputBaseShouldHaveCorrelationIdErrorCode)
+            .WithMessage(IInputBaseValidator.InputBaseShouldHaveCorrelationIdMessage)
+            .WithSeverity(IInputBaseValidator.InputBaseShouldHaveCorrelationIdSeverity);
+
         ConfigureFluentValidationConcreteValidatorInternal(fluentValidationValidatorWrapper);
     }
     protected abstract void ConfigureFluentValidationConcreteValidatorInternal(FluentValidationValidatorWrapper fluentValidationValidatorWrapper);

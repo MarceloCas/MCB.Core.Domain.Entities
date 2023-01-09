@@ -27,6 +27,11 @@ public interface IInputBaseValidator
     static readonly string InputBaseShouldHaveSourcePlatformWithValidLengthErrorCode = nameof(InputBaseShouldHaveSourcePlatformWithValidLengthErrorCode);
     static readonly string InputBaseShouldHaveSourcePlatformWithValidLengthMessage = nameof(InputBaseShouldHaveSourcePlatformWithValidLengthMessage);
     static readonly FluentValidation.Severity InputBaseShouldHaveSourcePlatformWithValidLengthSeverity = FluentValidation.Severity.Error;
+
+    // CorrelationId
+    static readonly string InputBaseShouldHaveCorrelationIdErrorCode = nameof(InputBaseShouldHaveCorrelationIdErrorCode);
+    static readonly string InputBaseShouldHaveCorrelationIdMessage = nameof(InputBaseShouldHaveCorrelationIdMessage);
+    static readonly FluentValidation.Severity InputBaseShouldHaveCorrelationIdSeverity = FluentValidation.Severity.Error;
 }
 
 public interface IInputBaseValidator<TInputBase>

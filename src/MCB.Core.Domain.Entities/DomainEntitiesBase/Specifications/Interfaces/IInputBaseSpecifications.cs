@@ -9,4 +9,6 @@ public interface IInputBaseSpecifications
 
     bool SourcePlatformShouldRequired(string sourcePlatform);
     bool SourcePlatformShouldValid(string sourcePlatform);
+
+    bool CorrelationIdShouldRequired(Guid correlationId);
 }

@@ -15,15 +15,17 @@ public class InputBaseTest
         var tenantId = Guid.NewGuid();
         var executionUser = "marcelo.castelo";
         var sourcePlatform = "dummyPlatform";
+        var correlationId = Guid.NewGuid();
 
         // Act
-        var dummyInput = new DummyInput(tenantId, executionUser, sourcePlatform);
+        var dummyInput = new DummyInput(tenantId, executionUser, sourcePlatform, correlationId);
 
         // Assert
         dummyInput.Should().NotBeNull();
         dummyInput.TenantId.Should().Be(tenantId);
         dummyInput.ExecutionUser.Should().Be(executionUser);
         dummyInput.SourcePlatform.Should().Be(sourcePlatform);
+        dummyInput.CorrelationId.Should().Be(correlationId);
     }
 
     public record DummyInput
@@ -32,8 +34,9 @@ public class InputBaseTest
         public DummyInput(
             Guid tenantId,
             string executionUser,
-            string sourcePlatform
-        ) : base(tenantId, executionUser, sourcePlatform)
+            string sourcePlatform,
+            Guid correlationId
+        ) : base(tenantId, executionUser, sourcePlatform, correlationId)
         {
         }
     }

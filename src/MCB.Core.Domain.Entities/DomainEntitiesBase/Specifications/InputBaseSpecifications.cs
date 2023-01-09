@@ -30,4 +30,9 @@ public class InputBaseSpecifications
         return SourcePlatformShouldRequired(sourcePlatform)
             && sourcePlatform.Length <= IDomainEntitySpecifications.DOMAIN_ENTITY_LAST_SOURCE_PLATFORM_MAX_LENGTH;
     }
+
+    public bool CorrelationIdShouldRequired(Guid correlationId)
+    {
+        return correlationId != Guid.Empty;
+    }
 }

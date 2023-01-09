@@ -18,7 +18,8 @@ public class InputBaseValidatorTest
         var dummyInput = new DummyInput(
             tenantId: Guid.NewGuid(),
             executionUser: new string('a', 150),
-            sourcePlatform: new string('a', 150)
+            sourcePlatform: new string('a', 150),
+            correlationId: Guid.NewGuid()
         );
         var dummyInputValidator = new DummyInputValidator();
 
@@ -42,7 +43,8 @@ public class InputBaseValidatorTest
         var dummyInput = new DummyInput(
             tenantId: Guid.Empty,
             executionUser: null,
-            sourcePlatform: null
+            sourcePlatform: null,
+            correlationId: Guid.Empty
         );
         var dummyInputValidator = new DummyInputValidator();
 
@@ -55,7 +57,7 @@ public class InputBaseValidatorTest
         validationResult.HasErrorMessages.Should().BeTrue();
         validationResult.HasValidationMessage.Should().BeTrue();
         validationResult.ValidationMessageCollection.Should().NotBeEmpty();
-        validationResult.ValidationMessageCollection.Should().HaveCount(3);
+        validationResult.ValidationMessageCollection.Should().HaveCount(4);
     }
 
     [Fact]
@@ -65,7 +67,8 @@ public class InputBaseValidatorTest
         var dummyInput = new DummyInput(
             tenantId: Guid.NewGuid(),
             executionUser: new string('a', 151),
-            sourcePlatform: new string('a', 151)
+            sourcePlatform: new string('a', 151),
+            correlationId: Guid.NewGuid()
         );
         var dummyInputValidator = new DummyInputValidator();
 
@@ -90,8 +93,9 @@ public record DummyInput
     public DummyInput(
         Guid tenantId,
         string executionUser,
-        string sourcePlatform
-    ) : base(tenantId, executionUser, sourcePlatform)
+        string sourcePlatform,
+        Guid correlationId
+    ) : base(tenantId, executionUser, sourcePlatform, correlationId)
     {
     }
 }
