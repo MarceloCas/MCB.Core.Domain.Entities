@@ -9,9 +9,6 @@ namespace MCB.Core.Domain.Entities.DomainEntitiesBase;
 public abstract class DomainEntityBase
     : IDomainEntity
 {
-    // Fields
-    private ValidationInfoValueObject _validationInfoValueObject = new();
-
     // Protected Methods
     protected IDateTimeProvider DateTimeProvider { get; private set; }
 
@@ -20,13 +17,14 @@ public abstract class DomainEntityBase
     public Guid TenantId { get; private set; }
     public AuditableInfoValueObject AuditableInfo { get; private set; }
     public DateTime RegistryVersion { get; private set; }
-    public ValidationInfoValueObject ValidationInfo => _validationInfoValueObject.Clone();
+    public ValidationInfoValueObject ValidationInfo { get; private set; }
 
     // Constructors
     protected DomainEntityBase(IDateTimeProvider dateTimeProvider)
     {
         DateTimeProvider = dateTimeProvider;
         AuditableInfo = new AuditableInfoValueObject();
+        ValidationInfo = new ValidationInfoValueObject();
     }
 
     // Private Methods
@@ -81,7 +79,7 @@ public abstract class DomainEntityBase
     private TDomainEntityBase SetValidationInfo<TDomainEntityBase>(ValidationInfoValueObject validationInfoValueObject)
          where TDomainEntityBase : DomainEntityBase
     {
-        _validationInfoValueObject = validationInfoValueObject;
+        ValidationInfo = validationInfoValueObject;
         return (TDomainEntityBase)this;
     }
 
@@ -90,11 +88,11 @@ public abstract class DomainEntityBase
 
     protected void AddValidationMessageInternal(ValidationMessageType validationMessageType, string code, string description)
     {
-        _validationInfoValueObject.AddValidationMessage(validationMessageType, code, description);
+        ValidationInfo.AddValidationMessage(validationMessageType, code, description);
     }
     protected void AddValidationMessageInternal(ValidationMessage validationMessage)
     {
-        _validationInfoValueObject.AddValidationMessage(
+        ValidationInfo.AddValidationMessage(
             validationMessage.ValidationMessageType, 
             validationMessage.Code, 
             validationMessage.Description
