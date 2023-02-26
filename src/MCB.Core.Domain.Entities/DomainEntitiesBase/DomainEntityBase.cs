@@ -9,6 +9,9 @@ namespace MCB.Core.Domain.Entities.DomainEntitiesBase;
 public abstract class DomainEntityBase
     : IDomainEntity
 {
+    // Private Methods
+    private ValidationInfoValueObject _validationInfo;
+
     // Protected Methods
     protected IDateTimeProvider DateTimeProvider { get; private set; }
 
@@ -17,14 +20,14 @@ public abstract class DomainEntityBase
     public Guid TenantId { get; private set; }
     public AuditableInfoValueObject AuditableInfo { get; private set; }
     public DateTime RegistryVersion { get; private set; }
-    public ValidationInfoValueObject ValidationInfo { get; private set; }
+    public ValidationInfoValueObject ValidationInfo => _validationInfo.DeepClone();
 
     // Constructors
     protected DomainEntityBase(IDateTimeProvider dateTimeProvider)
     {
         DateTimeProvider = dateTimeProvider;
         AuditableInfo = new AuditableInfoValueObject();
-        ValidationInfo = new ValidationInfoValueObject();
+        _validationInfo = new ValidationInfoValueObject();
     }
 
     // Private Methods
@@ -79,7 +82,7 @@ public abstract class DomainEntityBase
     private TDomainEntityBase SetValidationInfo<TDomainEntityBase>(ValidationInfoValueObject validationInfoValueObject)
          where TDomainEntityBase : DomainEntityBase
     {
-        ValidationInfo = validationInfoValueObject;
+        _validationInfo = validationInfoValueObject;
         return (TDomainEntityBase)this;
     }
 
@@ -88,11 +91,11 @@ public abstract class DomainEntityBase
 
     protected void AddValidationMessageInternal(ValidationMessageType validationMessageType, string code, string description)
     {
-        ValidationInfo.AddValidationMessage(validationMessageType, code, description);
+        _validationInfo.AddValidationMessage(validationMessageType, code, description);
     }
     protected void AddValidationMessageInternal(ValidationMessage validationMessage)
     {
-        ValidationInfo.AddValidationMessage(
+        _validationInfo.AddValidationMessage(
             validationMessage.ValidationMessageType, 
             validationMessage.Code, 
             validationMessage.Description
@@ -136,7 +139,7 @@ public abstract class DomainEntityBase
                 validationMessage.Description
             );
 
-        return ValidationInfo.IsValid;
+        return _validationInfo.IsValid;
     }
     protected virtual bool Validate(Func<ValidationInfoValueObject> handle)
     {
@@ -147,7 +150,7 @@ public abstract class DomainEntityBase
                 validationMessage.Description
             );
 
-        return ValidationInfo.IsValid;
+        return _validationInfo.IsValid;
     }
 
     protected TDomainEntityBase RegisterNewInternal<TDomainEntityBase>(Guid tenantId, string executionUser, string sourcePlatform, Guid correlationId)
