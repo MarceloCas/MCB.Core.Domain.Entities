@@ -465,14 +465,14 @@ public class DomainEntityBaseTest
             );
         }
 
-        public DomainEntityBase RegisterNewExposed(
+        public void RegisterNewExposed(
             Guid tenantId,
             string executionUser,
             string lastSourcePlatform,
             Guid correlationId
         ) => RegisterNewInternal<Customer>(tenantId, executionUser, lastSourcePlatform, correlationId: correlationId);
 
-        public DomainEntityBase SetExistingInfoExposed(
+        public void SetExistingInfoExposed(
             Guid id,
             Guid tenantId,
             string createdBy,
@@ -484,7 +484,7 @@ public class DomainEntityBaseTest
             Guid correlationId
         ) => SetExistingInfoInternal<Customer>(id, tenantId, createdBy, createdAt, lastUpdatedBy, lastUpdatedAt, lastSourcePlatform, registryVersion, lastCorrelationId: correlationId);
 
-        public DomainEntityBase RegisterModificationExposed(
+        public void RegisterModificationExposed(
             string executionUser,
             string lastSourcePlatform,
             Guid correlationId
